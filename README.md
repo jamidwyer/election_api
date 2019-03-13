@@ -1,0 +1,1 @@
+Theoretically will provide a free election information API for developers. I'm one (busy, busy, busy, busy, busy..) person, though, so we'll see.
