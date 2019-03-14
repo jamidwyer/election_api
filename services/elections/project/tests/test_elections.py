@@ -15,7 +15,7 @@ class TestElectionService(BaseTestCase):
         response = self.client.get('/elections/ok')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertIn(0, data['univeral_absentee'])
+        self.assertEqual(0, data['universal_absentee'])
         self.assertIn('success', data['status'])
 
 
