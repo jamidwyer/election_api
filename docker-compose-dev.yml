@@ -14,8 +14,8 @@ services:
       - FLASK_APP=project/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/elections_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/elections_test
+      - DATABASE_URL=postgres://postgres:postgres@elections-db:5432/elections_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@elections-db:5432/elections_test
     depends_on:
       - elections-db
 

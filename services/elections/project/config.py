@@ -1,4 +1,4 @@
-# services/users/project/config.py
+# services/elections/project/config.py
 
 
 import os
