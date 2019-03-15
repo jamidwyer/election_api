@@ -10,25 +10,38 @@ from project import db
 
 elections_blueprint = Blueprint('elections', __name__)
 
-
-@elections_blueprint.route('/elections/ok', methods=['GET'])
-def election_data():
-    return jsonify({
-        'status': 'success',
-        'absentee_ballot_url': '',
-        'polling_place_url': '',
-        'voter_registration_url': '',
-        'universal_absentee': 0,
-        'elections': [
-        	{
-        		'general_election_date': 'November 3, 2020',
-        		'primary_election_date': '',
-        		'search_terms': [
-        			'oklahoma 2020 election'
-        		]
-        	}
-        ]
-    })
+@elections_blueprint.route('/elections/<state_abbreviation>', methods=['GET'])
+def get_single_election(state_abbreviation):
+    """Get single election details"""
+    response_object = {
+        'status': 'fail',
+        'message': 'State does not exist'
+    }
+    try:
+        election = Election.query.filter_by(state=state_abbreviation).first()
+        if not election:
+            return jsonify(response_object), 404
+        else:
+            response_object = {
+                'status': 'success',
+                'absentee_ballot_url': '',
+                'polling_place_url': '',
+                'voter_registration_url': '',
+                'universal_absentee': 0,
+                'state': election.state,
+                'elections': [
+                    {
+                        'general_election_date': election.general_election_date,
+                        'primary_election_date': election.primary_election_date,
+                        'search_terms': [
+                            'oklahoma 2020 election'
+                        ]
+                    }
+                ]
+            }
+            return jsonify(response_object), 200
+    except ValueError:
+        return jsonify(response_object), 404
 
 @elections_blueprint.route('/elections', methods=['POST'])
 def add_election():
