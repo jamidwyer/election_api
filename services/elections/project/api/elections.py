@@ -43,6 +43,17 @@ def get_single_election(state_abbreviation):
     except ValueError:
         return jsonify(response_object), 404
 
+@elections_blueprint.route('/elections', methods=['GET'])
+def get_all_elections():
+    """Get all elections"""
+    response_object = {
+        'status': 'success',
+        'data': {
+            'elections': [election.to_json() for election in Election.query.all()]
+        }
+    }
+    return jsonify(response_object), 200
+
 @elections_blueprint.route('/elections', methods=['POST'])
 def add_election():
     post_data = request.get_json()

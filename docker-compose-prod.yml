@@ -5,15 +5,13 @@ services:
   elections:
     build:
       context: ./services/elections
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './services/elections:/usr/src/app'
-    ports:
-      - 5001:5000
+      dockerfile: Dockerfile-prod
+    expose:
+      - '5000'
     environment:
-      - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@elections-db:5432/elections_dev
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@elections-db:5432/elections_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@elections-db:5432/elections_test
     depends_on:
       - elections-db
@@ -22,8 +20,8 @@ services:
     build:
       context: ./services/elections/project/db
       dockerfile: Dockerfile
-    ports:
-      - 5435:5432
+    expose:
+      - 5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

@@ -16,6 +16,13 @@ def recreate_db():
     db.create_all()
     db.session.commit()
 
+@cli.command('seed_db')
+def seed_db():
+    """Seeds the database."""
+    db.session.add(Election(general_election_date='November 3, 2020', primary_election_date="March 3, 2020", state="ok"))
+    db.session.add(Election(general_election_date='November 3, 2020', primary_election_date="", state="nm"))
+    db.session.commit()
+
 @cli.command()
 def test():
     """Runs the tests without code coverage"""

@@ -14,6 +14,15 @@ class Election(db.Model):  # new
     state = db.Column(db.String(64), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'general_election_date': self.general_election_date,
+            'primary_election_date': self.primary_election_date,
+            'state': self.state,
+            'active': self.active
+        }
+
     def __init__(self, general_election_date, primary_election_date, state):
         self.general_election_date = general_election_date
         self.primary_election_date = primary_election_date

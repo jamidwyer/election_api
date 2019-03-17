@@ -105,21 +105,21 @@ class TestElectionService(BaseTestCase):
     def test_all_elections(self):
         """Ensure get all elections behaves correctly."""
         add_election('November 3, 2020', 'March 3, 2020', 'ok')
-        add_user('fletcher', 'fletcher@notreal.com')
+        add_election('November 3, 2020', '', 'nm')
         with self.client:
-            response = self.client.get('/users')
+            response = self.client.get('/elections')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(len(data['data']['users']), 2)
-            self.assertIn('michael', data['data']['users'][0]['username'])
+            self.assertEqual(len(data['data']['elections']), 2)
+            self.assertIn('November 3, 2020', data['data']['elections'][0]['general_election_date'])
             self.assertIn(
-                'michael@mherman.org', data['data']['users'][0]['email'])
-            self.assertIn('fletcher', data['data']['users'][1]['username'])
+                'March 3, 2020', data['data']['elections'][0]['primary_election_date'])
+            self.assertIn('November 3, 2020', data['data']['elections'][1]['general_election_date'])
             self.assertIn(
-                'fletcher@notreal.com', data['data']['users'][1]['email'])
+                'nm', data['data']['elections'][1]['state'])
             self.assertIn('success', data['status'])
 
-        def test_single_election_no_state(self):
+    def test_single_election_no_state(self):
         """Ensure error is thrown if a state is not provided."""
         with self.client:
             response = self.client.get('/elections/blah')
